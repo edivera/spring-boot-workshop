@@ -38,10 +38,17 @@ public class MovieCatalogResource {
 
 
         // get all rated movie IDs
+        /*// the hardcoded way
         List<Rating> ratings = Arrays.asList(
                 new Rating("1234", 4),
                 new Rating("5678", 3)
         );
+        */
+
+        Rating[] ratingsArr = restTemplate.getForObject("http://localhost:8083/ratingsdata/"
+                + userId, Rating[].class);
+
+        List<Rating> ratings = Arrays.asList(ratingsArr);
 
         return ratings.stream().map(rating -> {
             // For each movie ID, call movie info service and get details
