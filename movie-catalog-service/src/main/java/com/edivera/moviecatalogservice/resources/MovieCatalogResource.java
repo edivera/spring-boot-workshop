@@ -3,6 +3,7 @@ package com.edivera.moviecatalogservice.resources;
 import com.edivera.moviecatalogservice.models.CatalogItem;
 import com.edivera.moviecatalogservice.models.Movie;
 import com.edivera.moviecatalogservice.models.Rating;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,13 +19,17 @@ import java.util.stream.Collectors;
 //@GetMapping   // mapping for the get method
 public class MovieCatalogResource {
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @RequestMapping("/{userId}")    // variable userId
     // could have also been @RequestMapping("/catalog/{userId}").
     // it is implicitly @RequestMapping("/catalog/{userId}") as a result of the mapping outside the class
     public List<CatalogItem> getCalaog(@PathVariable("userId") String userId) {
         // maps /catalog/{userId} to this function. all well. part of most backends
 
-        RestTemplate restTemplate = new RestTemplate(); // creates a call to another microservice
+        // changed rest template into a bean, how is this any different than a protected static??
+        //RestTemplate restTemplate = new RestTemplate(); // creates a call to another microservice
         // makes a rest call to any URL and gets back a json string response.
         // if you know what the payload is on its return, pass it, it creates an object and
         // populates the fields and returns that object.
