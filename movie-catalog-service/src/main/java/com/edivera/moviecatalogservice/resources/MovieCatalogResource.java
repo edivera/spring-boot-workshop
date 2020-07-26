@@ -3,6 +3,7 @@ package com.edivera.moviecatalogservice.resources;
 import com.edivera.moviecatalogservice.models.CatalogItem;
 import com.edivera.moviecatalogservice.models.Movie;
 import com.edivera.moviecatalogservice.models.Rating;
+import com.edivera.moviecatalogservice.models.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,10 +46,10 @@ public class MovieCatalogResource {
         );
         */
 
-        Rating[] ratingsArr = restTemplate.getForObject("http://localhost:8083/ratingsdata/"
-                + userId, Rating[].class);
+        UserRating userRating = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/"
+                + userId, UserRating.class);
 
-        List<Rating> ratings = Arrays.asList(ratingsArr);
+        List<Rating> ratings = userRating.getRatings();
 
         return ratings.stream().map(rating -> {
             // For each movie ID, call movie info service and get details

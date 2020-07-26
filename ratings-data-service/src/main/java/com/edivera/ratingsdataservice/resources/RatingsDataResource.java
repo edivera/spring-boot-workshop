@@ -1,6 +1,7 @@
 package com.edivera.ratingsdataservice.resources;
 
 import com.edivera.ratingsdataservice.models.Rating;
+import com.edivera.ratingsdataservice.models.UserRating;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,15 +15,16 @@ import java.util.List;
 @RequestMapping("/ratingsdata")
 public class RatingsDataResource {
 
-    /*
     @RequestMapping("/{movieId}")
     public Rating getRating(@PathVariable("movieId") String movieId) {
         return new Rating(movieId, 4);
     }
-    */
 
-    @RequestMapping("/{userId}")
-    public Rating[] getRatings(@PathVariable("userId") String userId) {
+    @RequestMapping("/users/{userId}")
+    public UserRating getRatings(@PathVariable("userId") String userId) {
+        // returning parametrized lists requires parametrized types on the other end
+        // and wrapped lists are better than arrays because lists are better
+
         // hardcoded, but ideally requesting from a database
         ArrayList<Rating> ratings = new ArrayList<>();
         //Rating[] rats = new Rating[2];
@@ -33,6 +35,6 @@ public class RatingsDataResource {
         //ratings[1] = new Rating("5678", 3);
 
         //return ratings;
-        return ratings.toArray(new Rating[0]);  // convert list to array of type Rating[]
+        return new UserRating(ratings);  // wraps list inside UserRating
     }
 }
